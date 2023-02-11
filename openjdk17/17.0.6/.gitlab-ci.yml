@@ -21,8 +21,8 @@ jdk-17:
     #### Build Docker image
     - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG -f $OPENJDK17_PATH/jdk.Dockerfile . --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
     #### Versions
-    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG cat /etc/alpine-release
     - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG docker --version
+    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG cat /etc/alpine-release
     - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG java --version
     #### Tag and push
     - docker push $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
