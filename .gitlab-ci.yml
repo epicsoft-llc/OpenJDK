@@ -1,0 +1,46 @@
+stages:
+  - build
+  - release
+variables:
+  DOCKER_REGISTRY: "epicsoft/openjdk"
+image: docker:latest
+services:
+  - docker:dind
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+after_script:
+  - docker logout $CI_REGISTRY
+  - docker logout
+
+#### Latest version
+include:
+  - openjdk17/17.0.6/.gitlab-ci.yml
+
+Release:
+  stage: release
+  script:
+    #### JRE 17
+    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:latest
+    - docker push $CI_REGISTRY_IMAGE:jre
+    - docker push $DOCKER_REGISTRY:jre
+    - docker push $CI_REGISTRY_IMAGE:jre-latest
+    - docker push $DOCKER_REGISTRY:jre-latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $DOCKER_REGISTRY:latest
+    #### JDK 17
+    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk
+    - docker push $DOCKER_REGISTRY:jdk
+    - docker push $CI_REGISTRY_IMAGE:jdk-latest
+    - docker push $DOCKER_REGISTRY:jdk-latest
