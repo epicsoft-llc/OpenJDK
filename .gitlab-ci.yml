@@ -20,6 +20,16 @@ include:
 release-17:
   stage: release
   script:
+    #### JDK 17
+    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk
+    - docker push $DOCKER_REGISTRY:jdk
+    - docker push $CI_REGISTRY_IMAGE:jdk-latest
+    - docker push $DOCKER_REGISTRY:jdk-latest
     #### JRE 17
     - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre
@@ -34,13 +44,3 @@ release-17:
     - docker push $DOCKER_REGISTRY:jre-latest
     - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $DOCKER_REGISTRY:latest
-    #### JDK 17
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk
-    - docker push $DOCKER_REGISTRY:jdk
-    - docker push $CI_REGISTRY_IMAGE:jdk-latest
-    - docker push $DOCKER_REGISTRY:jdk-latest

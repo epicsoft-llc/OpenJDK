@@ -1,6 +1,6 @@
 variables:
   OPENJDK17_IMAGE_TAG: 17.0.6
-  OPENJDK17_PATH: openjdk17/17.0.6
+  OPENJDK17_PATH: openjdk17/$OPENJDK17_IMAGE_TAG
 
 jre-17:
   stage: build
