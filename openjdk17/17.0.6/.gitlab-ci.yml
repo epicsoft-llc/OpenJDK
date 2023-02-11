@@ -1,7 +1,7 @@
 variables:
   OPENJDK17_IMAGE_TAG: 17.0.6
 
-jre-$OPENJDK17_IMAGE_TAG:
+jre-17:
   stage: build
   script:
     #### Build Docker image
@@ -14,7 +14,7 @@ jre-$OPENJDK17_IMAGE_TAG:
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre$OPENJDK17_IMAGE_TAG
     - docker push $DOCKER_REGISTRY:jre$OPENJDK17_IMAGE_TAG
 
-jdk-$OPENJDK17_IMAGE_TAG:
+jdk-17:
   stage: build
   script:
     #### Build Docker image

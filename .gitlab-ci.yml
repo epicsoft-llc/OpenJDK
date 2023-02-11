@@ -8,7 +8,7 @@ services:
   - docker:dind
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
 after_script:
   - docker logout $CI_REGISTRY
   - docker logout
