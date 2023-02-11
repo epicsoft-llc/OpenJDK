@@ -17,7 +17,7 @@ after_script:
 include:
   - openjdk17/17.0.6/.gitlab-ci.yml
 
-Release:
+release-17:
   stage: release
   script:
     #### JRE 17
