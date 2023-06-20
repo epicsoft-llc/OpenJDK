@@ -7,16 +7,16 @@ image: docker:latest
 services:
   - docker:dind
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 after_script:
-  - docker logout $CI_REGISTRY
   - docker logout
+  - docker logout $CI_REGISTRY
 
 #### Latest version
 include:
-  - openjdk11/11.0.18/.gitlab-ci.yml
-  - openjdk17/17.0.6/.gitlab-ci.yml
+  - openjdk11/11.0.19/.gitlab-ci.yml
+  - openjdk17/17.0.7/.gitlab-ci.yml
 
 release-11:
   stage: release
