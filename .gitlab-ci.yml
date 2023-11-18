@@ -15,8 +15,8 @@ after_script:
 
 #### Latest version
 include:
-  - openjdk11/11.0.20/.gitlab-ci.yml
-  - openjdk17/17.0.8/.gitlab-ci.yml
+  - openjdk11/11.0.21/.gitlab-ci.yml
+  - openjdk17/17.0.9/.gitlab-ci.yml
 
 release-11:
   stage: release
