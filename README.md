@@ -51,9 +51,11 @@ LABEL org.label-schema.name="exampleProject" \
       org.label-schema.build-date="$BUILD_DATE" \
 
 ENV JAVA_SERVER="-server" \
-    JAVA_GC="-XX:+UseG1GC" \
-    JAVA_XMX="-Xmx1024m" \
+    JAVA_DOCKER="-XX:+UseContainerSupport -XX:MaxRAMPercentage=90" \
+    JAVA_SECURITY="-Djava.security.egd=file:/dev/./urandom" \
     JAVA_ENCODING="-Dfile.encoding=UTF-8" \
+    JAVA_TIMEZONE="-Duser.timezone=GMT" \
+    JAVA_ERROR="-XX:+ExitOnOutOfMemoryError" \
     JAVA_OPTS=""
 
 ARG JAR_FILE
@@ -61,8 +63,7 @@ COPY $JAR_FILE /app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_SERVER $JAVA_GC $JAVA_XMX $JAVA_ENCODING $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
-
+ENTRYPOINT [ "sh", "-c", "java $JAVA_SERVER $JAVA_DOCKER $JAVA_SECURITY $JAVA_ENCODING $JAVA_TIMEZONE $JAVA_ERROR $JAVA_OPTS -jar /app.jar" ]
 ```
 
 #  License
