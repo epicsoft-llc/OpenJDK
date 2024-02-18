@@ -1,29 +1,82 @@
 # OpenJDK
 
-Java OpenJDK-JDK and -JRE
+This Docker image is managed and kept up to date by [epicsoft LLC](https://epicsoft.one).
+
+Java OpenJDK-JDK and -JRE Docker images based on official images.
+
+* Base image for OpenJDK-JDK: https://hub.docker.com/_/docker
+* Base image for OpenJDK-JRE: https://hub.docker.com/_/alpine
+* Dockerfiles: https://gitlab.com/epicsoft-networks/openjdk/tree/main
+* Repository: https://gitlab.com/epicsoft-networks/openjdk/tree/main
+* Container-Registry: https://gitlab.com/epicsoft-networks/openjdk/container_registry
+* Docker Hub: https://hub.docker.com/r/epicsoft/openjdk
 
 ## OpenJDK-JDK
 
-OpenJDK-JDK based on Docker in Docker (DinD) and Alpine Linux.
-
+OpenJDK-JDK based on official image Docker in Docker (DinD) and indirectly on Alpine Linux.  
 This image is intended for building and can be used in a pipeline.
 
 ## OpenJDK-JRE
 
-OpenJDK-JRE based on Alpine Linux.
-
+OpenJDK-JRE based on official images Alpine Linux.  
 This image is for the runtime environment.
+
+## Versions
+
+`jdk` `jdk21` `jdk21.0.2` `jdk21-latest` `jdk-latest`  
+based on `docker:25.0.1-dind` indirectly on Alpine `3.19.0` with Java JDK `21.0.2` - build `weekly`
+  - Alpine package `openjdk21-jdk` version `21.0.2_p13-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jdk&branch=v3.19
+
+`jre` `jre21` `jre21.0.2` `jre21-latest` `jre-latest` `latest`  
+based on `alpine:3.19.0` image with Java JRE `21.0.2` - build `weekly`
+  - Alpine package `openjdk21-jre` version `21.0.2_p13-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jre&branch=v3.19
+
+`jdk17` `jdk17.0.10` `jdk17-latest`  
+based on `docker:25.0.1-dind` indirectly on Alpine `3.19.0` with Java JDK `17.0.10` - build `weekly`
+  - Alpine package `openjdk17-jdk` version `17.0.10_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jdk&branch=v3.19
+
+`jre17` `jre17.0.10` `jre17-latest`  
+based on `alpine:3.19.0` image with Java JRE `17.0.10` - build `weekly`
+  - Alpine package `openjdk17-jre` version `17.0.10_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jre&branch=v3.19
+
+`jdk11` `jdk11.0.22` `jdk11-latest`  
+based on `docker:25.0.1-dind` indirectly on Alpine `3.19.0` with Java JDK `11.0.22` - build `weekly`
+  - Alpine package `openjdk11-jdk` version `11.0.22_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jdk&branch=v3.19
+
+`jre11` `jre11.0.22` `jre11-latest`  
+based on `alpine:3.19.0` image with Java JRE `11.0.22` - build `weekly`
+  - Alpine package `openjdk11-jre` version `11.0.22_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jre&branch=v3.19
+
+For older versions see subdirectories
+  - OpenJDK 11 JDK & JRE - https://gitlab.com/epicsoft-networks/openjdk/tree/main/openjdk11
+  - OpenJDK 17 JDK & JRE - https://gitlab.com/epicsoft-networks/openjdk/tree/main/openjdk17
+  - OpenJDK 21 JDK & JRE - https://gitlab.com/epicsoft-networks/openjdk/tree/main/openjdk21
+
+## Additional Alpine packages
+
+Alpine packages are installed in the current image in the latest version - https://pkgs.alpinelinux.org/packages
+  - ca-certificates _(JDK & JRE)_
+  - ttf-dejavu _(JDK & JRE)_
+  - jq _(only JDK)_
 
 ## Examples
 
-### Build pipeline
+### Example usage for Gitlab-CI
 
-Build a Java Gradle project in a pipeline
+Build a Java Gradle project in Gitlab-CI pipeline
+
+`.gitlab-ci.yml`
 
 ```yml
+stages:
+  - build
+
+variables:
+  VERSION: "1.0.0" 
+
 exampleProjectBuild:
   stage: build
-  image: registry.gitlab.com/epicsoft-networks/openjdk:jdk-latest
+  image: epicsoft/openjdk:jdk-latest
   services:
     - docker:dind
   variables:
@@ -35,23 +88,25 @@ exampleProjectBuild:
     - docker logout $CI_REGISTRY
   script:
     - ./gradlew build --warning-mode all
-    - docker build -t $DOCKER_IMAGE . --build-arg JAR_FILE=$JAVA_JAR_PATH/exampleProject-${VERSION}.jar --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+    - docker build -t $DOCKER_IMAGE . --build-arg JAR_FILE=$JAVA_JAR_PATH/exampleProject-${VERSION}.jar --build-arg VERSION=$VERSION --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
     - docker push $DOCKER_IMAGE
 ```
 
-### Dockerfile
+### Example usage for Dockerfile
 
 ```dockerfile
-FROM registry.gitlab.com/epicsoft-networks/openjdk:jre-latest
+FROM epicsoft/openjdk:jre-latest
 
+ARG VERSION="development"
 ARG BUILD_DATE="development"
 LABEL org.label-schema.name="exampleProject" \
       org.label-schema.description="Example project" \
+      org.label-schema.version="$VERSION" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.build-date="$BUILD_DATE" \
+      org.label-schema.build-date="$BUILD_DATE"
 
 ENV JAVA_SERVER="-server" \
-    JAVA_DOCKER="-XX:+UseContainerSupport -XX:MaxRAMPercentage=90" \
+    JAVA_DOCKER="-XX:+UseContainerSupport -XX:MaxRAMPercentage=80" \
     JAVA_SECURITY="-Djava.security.egd=file:/dev/./urandom" \
     JAVA_ENCODING="-Dfile.encoding=UTF-8" \
     JAVA_TIMEZONE="-Duser.timezone=GMT" \
@@ -66,9 +121,8 @@ EXPOSE 8080
 ENTRYPOINT [ "sh", "-c", "java $JAVA_SERVER $JAVA_DOCKER $JAVA_SECURITY $JAVA_ENCODING $JAVA_TIMEZONE $JAVA_ERROR $JAVA_OPTS -jar /app.jar" ]
 ```
 
-#  License
+## License
 
-MIT License see [LICENSE](LICENSE)
+MIT License see [LICENSE](https://gitlab.com/epicsoft-networks/openjdk/blob/main/LICENSE)
 
-Please note that the MIT license only applies to the files created by epicsoft LLC.
-Other software may be licensed under other licenses.
+Please note that the MIT license only applies to the files created by epicsoft LLC. Other software may be licensed under other licenses.

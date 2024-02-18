@@ -2,7 +2,7 @@ variables:
   OPENJDK11_IMAGE_TAG: 11.0.22
   OPENJDK11_PATH: openjdk11/$OPENJDK11_IMAGE_TAG
 
-jre-11:
+jre11:
   stage: build
   script:
     #### Build Docker image
@@ -15,7 +15,7 @@ jre-11:
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jre$OPENJDK11_IMAGE_TAG
     - docker push $DOCKER_REGISTRY:jre$OPENJDK11_IMAGE_TAG
 
-jdk-11:
+jdk11:
   stage: build
   script:
     #### Build Docker image

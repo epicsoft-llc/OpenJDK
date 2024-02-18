@@ -28,4 +28,5 @@ RUN apk --no-cache add openjdk21-jdk=21.0.2_p13-r0 \
                        ca-certificates \
                        jq \
                        ttf-dejavu \
- && update-ca-certificates
+ && update-ca-certificates \
+ && rm -rf /var/cache/apk/*

@@ -1,25 +1,30 @@
 stages:
   - build
   - release
-variables:
-  DOCKER_REGISTRY: "epicsoft/openjdk"
+
 image: docker:latest
+
 services:
   - docker:dind
+
+variables:
+  DOCKER_REGISTRY: "epicsoft/openjdk"
+
 before_script:
   - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
 after_script:
   - docker logout
   - docker logout $CI_REGISTRY
 
-#### Latest version
+#### Only latest version
 include:
   - openjdk11/11.0.22/.gitlab-ci.yml
   - openjdk17/17.0.10/.gitlab-ci.yml
   - openjdk21/21.0.2/.gitlab-ci.yml
 
-release-11:
+release11:
   stage: release
   script:
     #### JDK 11
@@ -43,7 +48,7 @@ release-11:
     - docker push $CI_REGISTRY_IMAGE:jre11-latest
     - docker push $DOCKER_REGISTRY:jre11-latest
 
-release-17:
+release17:
   stage: release
   script:
     #### JDK 17
@@ -62,55 +67,71 @@ release-17:
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre17
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre17-latest
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre17-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:latest
     - docker push $CI_REGISTRY_IMAGE:jre17
     - docker push $DOCKER_REGISTRY:jre17
     - docker push $CI_REGISTRY_IMAGE:jre17-latest
     - docker push $DOCKER_REGISTRY:jre17-latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - docker push $DOCKER_REGISTRY:latest
 
-release-21:
+release21:
   stage: release
   script:
     #### JDK 21
     - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk-latest
     - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk21
     - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk21
     - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk21-latest
     - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk21-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk
-    - docker push $DOCKER_REGISTRY:jdk
-    - docker push $CI_REGISTRY_IMAGE:jdk-latest
-    - docker push $DOCKER_REGISTRY:jdk-latest
     - docker push $CI_REGISTRY_IMAGE:jdk21
     - docker push $DOCKER_REGISTRY:jdk21
     - docker push $CI_REGISTRY_IMAGE:jdk21-latest
     - docker push $DOCKER_REGISTRY:jdk21-latest
     #### JRE 21
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre-latest
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre21
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21-latest
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre21-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:latest
-    - docker push $CI_REGISTRY_IMAGE:jre
-    - docker push $DOCKER_REGISTRY:jre
-    - docker push $CI_REGISTRY_IMAGE:jre-latest
-    - docker push $DOCKER_REGISTRY:jre-latest
     - docker push $CI_REGISTRY_IMAGE:jre21
     - docker push $DOCKER_REGISTRY:jre21
     - docker push $CI_REGISTRY_IMAGE:jre21-latest
     - docker push $DOCKER_REGISTRY:jre21-latest
+
+releaseLatest:
+  stage: release
+  variables:
+    LATEST_TAG: $OPENJDK21_IMAGE_TAG
+  script:
+    #### JDK
+    - docker pull $CI_REGISTRY_IMAGE:jdk$LATEST_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $CI_REGISTRY_IMAGE:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $DOCKER_REGISTRY:jdk
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $CI_REGISTRY_IMAGE:jdk-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $DOCKER_REGISTRY:jdk-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk
+    - docker push $DOCKER_REGISTRY:jdk
+    - docker push $CI_REGISTRY_IMAGE:jdk-latest
+    - docker push $DOCKER_REGISTRY:jdk-latest
+    #### JRE
+    - docker pull $CI_REGISTRY_IMAGE:jre$LATEST_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:jre
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:jre
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:jre-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:jre-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:latest
+    - docker push $CI_REGISTRY_IMAGE:jre
+    - docker push $DOCKER_REGISTRY:jre
+    - docker push $CI_REGISTRY_IMAGE:jre-latest
+    - docker push $DOCKER_REGISTRY:jre-latest
     - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $DOCKER_REGISTRY:latest
+
+uploadReadme:
+  stage: release
+  script:
+    - docker run --rm -v $PWD:/workspace
+      -e DOCKERHUB_USERNAME=${DOCKER_HUB_USER}
+      -e DOCKERHUB_PASSWORD=${DOCKER_HUB_TOKEN}
+      -e DOCKERHUB_REPOSITORY=${DOCKER_REGISTRY}
+      -e SHORT_DESCRIPTION="Java OpenJDK-JDK and -JRE Docker images based on official images"
+      -e README_FILEPATH='/workspace/README.md'
+        peterevans/dockerhub-description:latest

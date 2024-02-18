@@ -25,4 +25,5 @@ LABEL image.name="epicsoft_openjdk_jre" \
 RUN apk --no-cache add openjdk21-jre=21.0.2_p13-r0 \
                        ca-certificates \
                        ttf-dejavu \
- && update-ca-certificates
+ && update-ca-certificates \
+ && rm -rf /var/cache/apk/*

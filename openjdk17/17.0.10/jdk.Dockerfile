@@ -28,4 +28,5 @@ RUN apk --no-cache add openjdk17-jdk=17.0.10_p7-r0 \
                        ca-certificates \
                        jq \
                        ttf-dejavu \
- && update-ca-certificates
+ && update-ca-certificates \
+ && rm -rf /var/cache/apk/*
