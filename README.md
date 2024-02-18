@@ -61,9 +61,9 @@ Alpine packages are installed in the current image in the latest version - https
 
 ## Examples
 
-### Example usage for Gitlab-CI
+### Example usage for GitLab CI/CD
 
-Build a Java Gradle project in Gitlab-CI pipeline
+Build a Java Gradle project in GitLab CI/CD pipeline
 
 `.gitlab-ci.yml`
 
