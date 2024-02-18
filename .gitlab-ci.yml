@@ -86,6 +86,7 @@ release21:
     - docker push $CI_REGISTRY_IMAGE:jdk21-latest
     - docker push $DOCKER_REGISTRY:jdk21-latest
     #### JRE 21
+    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre21
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21-latest
