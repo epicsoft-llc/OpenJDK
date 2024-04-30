@@ -1,0 +1,30 @@
+variables:
+  OPENJDK21_IMAGE_TAG: 21.0.3
+  OPENJDK21_PATH: openjdk21/$OPENJDK21_IMAGE_TAG
+
+jre21:
+  stage: build
+  script:
+    #### Build Docker image
+    - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG -f $OPENJDK21_PATH/jre.Dockerfile . --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+    #### Versions
+    - docker run --rm $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG cat /etc/alpine-release
+    - docker run --rm $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG java --version
+    #### Tag and push
+    - docker push $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre$OPENJDK21_IMAGE_TAG
+    - docker push $DOCKER_REGISTRY:jre$OPENJDK21_IMAGE_TAG
+
+jdk21:
+  stage: build
+  script:
+    #### Build Docker image
+    - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG -f $OPENJDK21_PATH/jdk.Dockerfile . --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+    #### Versions
+    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG docker --version
+    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG cat /etc/alpine-release
+    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG java --version
+    #### Tag and push
+    - docker push $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk$OPENJDK21_IMAGE_TAG
+    - docker push $DOCKER_REGISTRY:jdk$OPENJDK21_IMAGE_TAG
