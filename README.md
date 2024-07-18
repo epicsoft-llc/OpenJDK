@@ -23,29 +23,29 @@ This image is for the runtime environment.
 
 ## Versions
 
-`jdk` `jdk21` `jdk21.0.3` `jdk21-latest` `jdk-latest`  
-based on `docker:26.1.0-dind` indirectly on Alpine `3.19.1` with Java JDK `21.0.3` - build `weekly`
-  - Alpine package `openjdk21-jdk` version `21.0.3_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jdk&branch=v3.19
+`jdk` `jdk21` `jdk21.0.4` `jdk21-latest` `jdk-latest`  
+based on `docker:27.1.3-dind` indirectly on Alpine `3.20.1` with Java JDK `21.0.4` - build `weekly`
+  - Alpine package `openjdk21-jdk` version `21.0.4_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jdk&branch=v3.20
 
-`jre` `jre21` `jre21.0.3` `jre21-latest` `jre-latest` `latest`  
-based on `alpine:3.19.1` image with Java JRE `21.0.3` - build `weekly`
-  - Alpine package `openjdk21-jre` version `21.0.3_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jre&branch=v3.19
+`jre` `jre21` `jre21.0.4` `jre21-latest` `jre-latest` `latest`  
+based on `alpine:3.20.1` image with Java JRE `21.0.4` - build `weekly`
+  - Alpine package `openjdk21-jre` version `21.0.4_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk21-jre&branch=v3.20
 
-`jdk17` `jdk17.0.11` `jdk17-latest`  
-based on `docker:26.1.0-dind` indirectly on Alpine `3.19.1` with Java JDK `17.0.11` - build `weekly`
-  - Alpine package `openjdk17-jdk` version `17.0.11_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jdk&branch=v3.19
+`jdk17` `jdk17.0.12` `jdk17-latest`  
+based on `docker:27.1.3-dind` indirectly on Alpine `3.20.1` with Java JDK `17.0.12` - build `weekly`
+  - Alpine package `openjdk17-jdk` version `17.0.12_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jdk&branch=v3.20
 
-`jre17` `jre17.0.11` `jre17-latest`  
-based on `alpine:3.19.1` image with Java JRE `17.0.11` - build `weekly`
-  - Alpine package `openjdk17-jre` version `17.0.11_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jre&branch=v3.19
+`jre17` `jre17.0.12` `jre17-latest`  
+based on `alpine:3.20.1` image with Java JRE `17.0.12` - build `weekly`
+  - Alpine package `openjdk17-jre` version `17.0.12_p7-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk17-jre&branch=v3.20
 
-`jdk11` `jdk11.0.23` `jdk11-latest`  
-based on `docker:26.1.0-dind` indirectly on Alpine `3.19.1` with Java JDK `11.0.23` - build `weekly`
-  - Alpine package `openjdk11-jdk` version `11.0.23_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jdk&branch=v3.19
+`jdk11` `jdk11.0.24` `jdk11-latest`  
+based on `docker:27.1.3-dind` indirectly on Alpine `3.20.1` with Java JDK `11.0.24` - build `weekly`
+  - Alpine package `openjdk11-jdk` version `11.0.24_p8-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jdk&branch=v3.20
 
-`jre11` `jre11.0.23` `jre11-latest`  
-based on `alpine:3.19.1` image with Java JRE `11.0.23` - build `weekly`
-  - Alpine package `openjdk11-jre` version `11.0.23_p9-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jre&branch=v3.19
+`jre11` `jre11.0.24` `jre11-latest`  
+based on `alpine:3.20.1` image with Java JRE `11.0.24` - build `weekly`
+  - Alpine package `openjdk11-jre` version `11.0.24_p8-r0` - https://pkgs.alpinelinux.org/packages?name=openjdk11-jre&branch=v3.20
 
 For older versions see subdirectories
   - OpenJDK 11 JDK & JRE - https://gitlab.com/epicsoft-networks/openjdk/tree/main/openjdk11
