@@ -135,4 +135,4 @@ uploadReadme:
       -e DOCKERHUB_REPOSITORY=${DOCKER_REGISTRY}
       -e SHORT_DESCRIPTION="Java OpenJDK-JDK and -JRE Docker images based on official images"
       -e README_FILEPATH='/workspace/README.md'
-        peterevans/dockerhub-description:latest
+        peterevans/dockerhub-description:4
