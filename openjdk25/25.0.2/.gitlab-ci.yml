@@ -1,6 +1,6 @@
 variables:
   OPENJDK25_IMAGE_TAG: 25.0.2
-  OPENJDK25_PATH: openjdk21/$OPENJDK25_IMAGE_TAG
+  OPENJDK25_PATH: openjdk25/$OPENJDK25_IMAGE_TAG
 
 jre25:
   stage: build
