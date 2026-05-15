@@ -23,6 +23,7 @@ include:
   - openjdk11/11.0.30/.gitlab-ci.yml
   - openjdk17/17.0.18/.gitlab-ci.yml
   - openjdk21/21.0.10/.gitlab-ci.yml
+  - openjdk25/25.0.2/.gitlab-ci.yml
 
 release11:
   stage: release
@@ -96,10 +97,34 @@ release21:
     - docker push $CI_REGISTRY_IMAGE:jre21-latest
     - docker push $DOCKER_REGISTRY:jre21-latest
 
+release25:
+  stage: release
+  script:
+    #### JDK 25
+    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk25
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jdk25
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk25-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jdk25-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk25
+    - docker push $DOCKER_REGISTRY:jdk25
+    - docker push $CI_REGISTRY_IMAGE:jdk25-latest
+    - docker push $DOCKER_REGISTRY:jdk25-latest
+    #### JRE 25
+    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jre25
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jre25
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jre25-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jre25-latest
+    - docker push $CI_REGISTRY_IMAGE:jre25
+    - docker push $DOCKER_REGISTRY:jre25
+    - docker push $CI_REGISTRY_IMAGE:jre25-latest
+    - docker push $DOCKER_REGISTRY:jre25-latest
+
 releaseLatest:
   stage: release
   variables:
-    LATEST_TAG: $OPENJDK21_IMAGE_TAG
+    LATEST_TAG: $OPENJDK25_IMAGE_TAG
   script:
     #### JDK
     - docker pull $CI_REGISTRY_IMAGE:jdk$LATEST_TAG
