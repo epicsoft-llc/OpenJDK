@@ -2,7 +2,7 @@ variables:
   OPENJDK25_IMAGE_TAG: 25.0.2
   OPENJDK25_PATH: openjdk21/$OPENJDK25_IMAGE_TAG
 
-jre21:
+jre25:
   stage: build
   script:
     #### Build Docker image
@@ -15,7 +15,7 @@ jre21:
     - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jre$OPENJDK25_IMAGE_TAG
     - docker push $DOCKER_REGISTRY:jre$OPENJDK25_IMAGE_TAG
 
-jdk21:
+jdk25:
   stage: build
   script:
     #### Build Docker image
