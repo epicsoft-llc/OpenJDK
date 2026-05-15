@@ -24,10 +24,10 @@ This image is for the runtime environment.
 ## Versions
 
 `jdk` `jdk25` `jdk25.0.2` `jdk25-latest` `jdk-latest`  
-based on Docker DinD indirectly on Alpine with Java JDK 21 - build `weekly`
+based on Docker DinD indirectly on Alpine with Java JDK 25 - build `weekly`
 
 `jre` `jre25` `jre25.0.2` `jre25-latest` `jre-latest` `latest`  
-based on Alpine image with Java JRE 21 - build `weekly`
+based on Alpine image with Java JRE 25 - build `weekly`
 
 `jdk` `jdk21` `jdk21.0.10` `jdk21-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 21 - build `weekly`
