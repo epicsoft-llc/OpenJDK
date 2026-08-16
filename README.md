@@ -23,28 +23,28 @@ This image is for the runtime environment.
 
 ## Versions
 
-`jdk` `jdk25` `jdk25.0.3` `jdk25-latest` `jdk-latest`  
+`jdk` `jdk25` `jdk25.0.4` `jdk25-latest` `jdk-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 25 - build `weekly`
 
-`jre` `jre25` `jre25.0.3` `jre25-latest` `jre-latest` `latest`  
+`jre` `jre25` `jre25.0.4` `jre25-latest` `jre-latest` `latest`  
 based on Alpine image with Java JRE 25 - build `weekly`
 
-`jdk` `jdk21` `jdk21.0.11` `jdk21-latest`  
+`jdk` `jdk21` `jdk21.0.12` `jdk21-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 21 - build `weekly`
 
-`jre` `jre21` `jre21.0.11` `jre21-latest`  
+`jre` `jre21` `jre21.0.12` `jre21-latest`  
 based on Alpine image with Java JRE 21 - build `weekly`
 
-`jdk17` `jdk17.0.19` `jdk17-latest`  
+`jdk17` `jdk17.0.20` `jdk17-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 17 - build `weekly`
 
-`jre17` `jre17.0.19` `jre17-latest`  
+`jre17` `jre17.0.20` `jre17-latest`  
 based on Alpine image with Java JRE 17 - build `weekly`
 
-`jdk11` `jdk11.0.31` `jdk11-latest`  
+`jdk11` `jdk11.0.32` `jdk11-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 11 - build `weekly`
 
-`jre11` `jre11.0.31` `jre11-latest`  
+`jre11` `jre11.0.32` `jre11-latest`  
 based on Alpine image with Java JRE 11 - build `weekly`
 
 For older versions see subdirectories
