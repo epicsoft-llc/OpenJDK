@@ -29,10 +29,10 @@ based on Docker DinD indirectly on Alpine with Java JDK 25 - build `weekly`
 `jre` `jre25` `jre25.0.4` `jre25-latest` `jre-latest` `latest`  
 based on Alpine image with Java JRE 25 - build `weekly`
 
-`jdk` `jdk21` `jdk21.0.12` `jdk21-latest`  
+`jdk21` `jdk21.0.12` `jdk21-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 21 - build `weekly`
 
-`jre` `jre21` `jre21.0.12` `jre21-latest`  
+`jre21` `jre21.0.12` `jre21-latest`  
 based on Alpine image with Java JRE 21 - build `weekly`
 
 `jdk17` `jdk17.0.20` `jdk17-latest`  

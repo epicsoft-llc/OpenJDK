@@ -26,7 +26,13 @@ include:
   - openjdk21/21.0.12/.gitlab-ci.yml
   - openjdk25/25.0.4/.gitlab-ci.yml
 
+#### Release only on the default branch
+.releaseOnMain:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 release11:
+  extends: .releaseOnMain
   stage: release
   script:
     #### JDK 11
@@ -51,6 +57,7 @@ release11:
     - docker push $DOCKER_REGISTRY:jre11-latest
 
 release17:
+  extends: .releaseOnMain
   stage: release
   script:
     #### JDK 17
@@ -75,6 +82,7 @@ release17:
     - docker push $DOCKER_REGISTRY:jre17-latest
 
 release21:
+  extends: .releaseOnMain
   stage: release
   script:
     #### JDK 21
@@ -99,6 +107,7 @@ release21:
     - docker push $DOCKER_REGISTRY:jre21-latest
 
 release25:
+  extends: .releaseOnMain
   stage: release
   script:
     #### JDK 25
@@ -123,6 +132,7 @@ release25:
     - docker push $DOCKER_REGISTRY:jre25-latest
 
 releaseLatest:
+  extends: .releaseOnMain
   stage: release
   variables:
     LATEST_TAG: $OPENJDK25_IMAGE_TAG
@@ -153,6 +163,7 @@ releaseLatest:
     - docker push $DOCKER_REGISTRY:latest
 
 uploadReadme:
+  extends: .releaseOnMain
   stage: release
   script:
     - docker run --rm -v $PWD:/workspace
