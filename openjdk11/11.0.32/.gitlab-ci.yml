@@ -24,6 +24,7 @@ jdk11:
     - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG docker --version
     - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG cat /etc/alpine-release
     - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG java --version
+    - docker run --rm $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG jq --version
     #### Tag and push
     - docker push $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG
     - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jdk$OPENJDK11_IMAGE_TAG
