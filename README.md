@@ -6,6 +6,7 @@ Java OpenJDK-JDK and -JRE Docker images based on official images.
 
 * Base image for OpenJDK-JDK: https://hub.docker.com/_/docker
 * Base image for OpenJDK-JRE: https://hub.docker.com/_/alpine
+* Base image for the Debian variants: https://hub.docker.com/_/debian
 * Dockerfiles: https://gitlab.com/epicsoft-networks/openjdk/tree/main
 * Repository: https://gitlab.com/epicsoft-networks/openjdk/tree/main
 * Container-Registry: https://gitlab.com/epicsoft-networks/openjdk/container_registry
@@ -21,6 +22,13 @@ This image is intended for building and can be used in a pipeline.
 OpenJDK-JRE based on official images Alpine Linux.  
 This image is for the runtime environment.
 
+## OpenJDK Debian headless
+
+OpenJDK-JDK and -JRE based on the official Debian slim image with the headless Java packages.  
+These images are for a glibc runtime environment, e.g. for native libraries that do not run on musl.  
+Headless means AWT is available for font rendering, image and PDF generation, but not for GUI windows.  
+The Debian JDK image is not based on Docker in Docker and contains no Docker CLI.
+
 ## Versions
 
 `jdk` `jdk25` `jdk25.0.4` `jdk25-latest` `jdk-latest`  
@@ -28,6 +36,12 @@ based on Docker DinD indirectly on Alpine with Java JDK 25 - build `weekly`
 
 `jre` `jre25` `jre25.0.4` `jre25-latest` `jre-latest` `latest`  
 based on Alpine image with Java JRE 25 - build `weekly`
+
+`jdk-debian-headless` `jdk25-debian-headless` `jdk25.0.4-debian-headless` `jdk25-debian-headless-latest` `jdk-debian-headless-latest`  
+based on Debian slim image with Java JDK 25 headless - build `weekly`
+
+`jre-debian-headless` `jre25-debian-headless` `jre25.0.4-debian-headless` `jre25-debian-headless-latest` `jre-debian-headless-latest`  
+based on Debian slim image with Java JRE 25 headless - build `weekly`
 
 `jdk21` `jdk21.0.12` `jdk21-latest`  
 based on Docker DinD indirectly on Alpine with Java JDK 21 - build `weekly`
@@ -59,6 +73,19 @@ Alpine packages are installed in the current image in the latest version - https
   - ca-certificates _(JDK & JRE)_
   - ttf-dejavu _(JDK & JRE)_
   - ttf-liberation _(JDK & JRE)_
+  - jq _(only JDK)_
+
+## Additional Debian packages
+
+Debian packages are installed in the current image in the latest version - https://packages.debian.org
+  - ca-certificates _(JDK & JRE)_
+  - fontconfig _(JDK & JRE)_
+  - fonts-dejavu _(JDK & JRE)_
+  - fonts-liberation _(JDK & JRE)_
+  - fonts-liberation-sans-narrow _(JDK & JRE)_
+  - libasound2t64 _(JDK & JRE)_
+  - libfreetype6 _(JDK & JRE)_
+  - libharfbuzz0b _(JDK & JRE)_
   - jq _(only JDK)_
 
 ## Examples
@@ -122,6 +149,14 @@ EXPOSE 8080
 
 ENTRYPOINT [ "sh", "-c", "java $JAVA_SERVER $JAVA_DOCKER $JAVA_SECURITY $JAVA_ENCODING $JAVA_TIMEZONE $JAVA_ERROR $JAVA_OPTS -jar /app.jar" ]
 ```
+
+## End of life
+
+Upstream support for these Java versions ends, the images are no longer updated afterwards - https://adoptium.net/support
+  - Java 11 _(October 2027)_
+  - Java 17 _(October 2027)_
+  - Java 21 _(December 2029)_
+  - Java 25 _(September 2031)_
 
 ## License
 

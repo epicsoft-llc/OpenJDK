@@ -130,6 +130,26 @@ release25:
     - docker push $DOCKER_REGISTRY:jre25
     - docker push $CI_REGISTRY_IMAGE:jre25-latest
     - docker push $DOCKER_REGISTRY:jre25-latest
+    #### JDK 25 Debian headless
+    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk25-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jdk25-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk25-debian-headless-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jdk25-debian-headless-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk25-debian-headless
+    - docker push $DOCKER_REGISTRY:jdk25-debian-headless
+    - docker push $CI_REGISTRY_IMAGE:jdk25-debian-headless-latest
+    - docker push $DOCKER_REGISTRY:jdk25-debian-headless-latest
+    #### JRE 25 Debian headless
+    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jre25-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jre25-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jre25-debian-headless-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jre25-debian-headless-latest
+    - docker push $CI_REGISTRY_IMAGE:jre25-debian-headless
+    - docker push $DOCKER_REGISTRY:jre25-debian-headless
+    - docker push $CI_REGISTRY_IMAGE:jre25-debian-headless-latest
+    - docker push $DOCKER_REGISTRY:jre25-debian-headless-latest
 
 releaseLatest:
   extends: .releaseOnMain
@@ -161,6 +181,26 @@ releaseLatest:
     - docker push $DOCKER_REGISTRY:jre-latest
     - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $DOCKER_REGISTRY:latest
+    #### JDK Debian headless
+    - docker pull $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jdk-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk-debian-headless-latest
+    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jdk-debian-headless-latest
+    - docker push $CI_REGISTRY_IMAGE:jdk-debian-headless
+    - docker push $DOCKER_REGISTRY:jdk-debian-headless
+    - docker push $CI_REGISTRY_IMAGE:jdk-debian-headless-latest
+    - docker push $DOCKER_REGISTRY:jdk-debian-headless-latest
+    #### JRE Debian headless
+    - docker pull $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jre-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jre-debian-headless
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jre-debian-headless-latest
+    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jre-debian-headless-latest
+    - docker push $CI_REGISTRY_IMAGE:jre-debian-headless
+    - docker push $DOCKER_REGISTRY:jre-debian-headless
+    - docker push $CI_REGISTRY_IMAGE:jre-debian-headless-latest
+    - docker push $DOCKER_REGISTRY:jre-debian-headless-latest
 
 uploadReadme:
   extends: .releaseOnMain
