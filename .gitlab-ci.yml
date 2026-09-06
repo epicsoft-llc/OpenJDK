@@ -7,8 +7,14 @@ image: docker:latest
 services:
   - docker:dind
 
+#### Multi-platform builds need a runner host with QEMU binfmt handlers registered
+default:
+  tags:
+    - imagex
+
 variables:
   DOCKER_REGISTRY: "epicsoft/openjdk"
+  BUILD_PLATFORMS: "linux/amd64,linux/arm64"
   BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
 
 before_script:
@@ -31,125 +37,97 @@ include:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+#### Re-tagging copies the whole manifest list, so it must not go through
+#### docker pull/tag/push - that would flatten the image to the runner platform
 release11:
   extends: .releaseOnMain
   stage: release
   script:
     #### JDK 11
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk11
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jdk11
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk11-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jdk11-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk11
-    - docker push $DOCKER_REGISTRY:jdk11
-    - docker push $CI_REGISTRY_IMAGE:jdk11-latest
-    - docker push $DOCKER_REGISTRY:jdk11-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk11
+        -t $CI_REGISTRY_IMAGE:jdk11-latest
+        -t $DOCKER_REGISTRY:jdk11
+        -t $DOCKER_REGISTRY:jdk11-latest
+        $CI_REGISTRY_IMAGE:jdk$OPENJDK11_IMAGE_TAG
     #### JRE 11
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG $CI_REGISTRY_IMAGE:jre11
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jre11
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG $CI_REGISTRY_IMAGE:jre11-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG $DOCKER_REGISTRY:jre11-latest
-    - docker push $CI_REGISTRY_IMAGE:jre11
-    - docker push $DOCKER_REGISTRY:jre11
-    - docker push $CI_REGISTRY_IMAGE:jre11-latest
-    - docker push $DOCKER_REGISTRY:jre11-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre11
+        -t $CI_REGISTRY_IMAGE:jre11-latest
+        -t $DOCKER_REGISTRY:jre11
+        -t $DOCKER_REGISTRY:jre11-latest
+        $CI_REGISTRY_IMAGE:jre$OPENJDK11_IMAGE_TAG
 
 release17:
   extends: .releaseOnMain
   stage: release
   script:
     #### JDK 17
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk17
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk17
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk17-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jdk17-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk17
-    - docker push $DOCKER_REGISTRY:jdk17
-    - docker push $CI_REGISTRY_IMAGE:jdk17-latest
-    - docker push $DOCKER_REGISTRY:jdk17-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk17
+        -t $CI_REGISTRY_IMAGE:jdk17-latest
+        -t $DOCKER_REGISTRY:jdk17
+        -t $DOCKER_REGISTRY:jdk17-latest
+        $CI_REGISTRY_IMAGE:jdk$OPENJDK17_IMAGE_TAG
     #### JRE 17
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre17
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre17
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $CI_REGISTRY_IMAGE:jre17-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG $DOCKER_REGISTRY:jre17-latest
-    - docker push $CI_REGISTRY_IMAGE:jre17
-    - docker push $DOCKER_REGISTRY:jre17
-    - docker push $CI_REGISTRY_IMAGE:jre17-latest
-    - docker push $DOCKER_REGISTRY:jre17-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre17
+        -t $CI_REGISTRY_IMAGE:jre17-latest
+        -t $DOCKER_REGISTRY:jre17
+        -t $DOCKER_REGISTRY:jre17-latest
+        $CI_REGISTRY_IMAGE:jre$OPENJDK17_IMAGE_TAG
 
 release21:
   extends: .releaseOnMain
   stage: release
   script:
     #### JDK 21
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk21
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk21
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk21-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jdk21-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk21
-    - docker push $DOCKER_REGISTRY:jdk21
-    - docker push $CI_REGISTRY_IMAGE:jdk21-latest
-    - docker push $DOCKER_REGISTRY:jdk21-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk21
+        -t $CI_REGISTRY_IMAGE:jdk21-latest
+        -t $DOCKER_REGISTRY:jdk21
+        -t $DOCKER_REGISTRY:jdk21-latest
+        $CI_REGISTRY_IMAGE:jdk$OPENJDK21_IMAGE_TAG
     #### JRE 21
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre21
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $CI_REGISTRY_IMAGE:jre21-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG $DOCKER_REGISTRY:jre21-latest
-    - docker push $CI_REGISTRY_IMAGE:jre21
-    - docker push $DOCKER_REGISTRY:jre21
-    - docker push $CI_REGISTRY_IMAGE:jre21-latest
-    - docker push $DOCKER_REGISTRY:jre21-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre21
+        -t $CI_REGISTRY_IMAGE:jre21-latest
+        -t $DOCKER_REGISTRY:jre21
+        -t $DOCKER_REGISTRY:jre21-latest
+        $CI_REGISTRY_IMAGE:jre$OPENJDK21_IMAGE_TAG
 
 release25:
   extends: .releaseOnMain
   stage: release
   script:
     #### JDK 25
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk25
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jdk25
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jdk25-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jdk25-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk25
-    - docker push $DOCKER_REGISTRY:jdk25
-    - docker push $CI_REGISTRY_IMAGE:jdk25-latest
-    - docker push $DOCKER_REGISTRY:jdk25-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk25
+        -t $CI_REGISTRY_IMAGE:jdk25-latest
+        -t $DOCKER_REGISTRY:jdk25
+        -t $DOCKER_REGISTRY:jdk25-latest
+        $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG
     #### JRE 25
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jre25
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jre25
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $CI_REGISTRY_IMAGE:jre25-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG $DOCKER_REGISTRY:jre25-latest
-    - docker push $CI_REGISTRY_IMAGE:jre25
-    - docker push $DOCKER_REGISTRY:jre25
-    - docker push $CI_REGISTRY_IMAGE:jre25-latest
-    - docker push $DOCKER_REGISTRY:jre25-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre25
+        -t $CI_REGISTRY_IMAGE:jre25-latest
+        -t $DOCKER_REGISTRY:jre25
+        -t $DOCKER_REGISTRY:jre25-latest
+        $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG
     #### JDK 25 Debian headless
-    - docker pull $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk25-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jdk25-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk25-debian-headless-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jdk25-debian-headless-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk25-debian-headless
-    - docker push $DOCKER_REGISTRY:jdk25-debian-headless
-    - docker push $CI_REGISTRY_IMAGE:jdk25-debian-headless-latest
-    - docker push $DOCKER_REGISTRY:jdk25-debian-headless-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk25-debian-headless
+        -t $CI_REGISTRY_IMAGE:jdk25-debian-headless-latest
+        -t $DOCKER_REGISTRY:jdk25-debian-headless
+        -t $DOCKER_REGISTRY:jdk25-debian-headless-latest
+        $CI_REGISTRY_IMAGE:jdk$OPENJDK25_IMAGE_TAG-debian-headless
     #### JRE 25 Debian headless
-    - docker pull $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jre25-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jre25-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $CI_REGISTRY_IMAGE:jre25-debian-headless-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless $DOCKER_REGISTRY:jre25-debian-headless-latest
-    - docker push $CI_REGISTRY_IMAGE:jre25-debian-headless
-    - docker push $DOCKER_REGISTRY:jre25-debian-headless
-    - docker push $CI_REGISTRY_IMAGE:jre25-debian-headless-latest
-    - docker push $DOCKER_REGISTRY:jre25-debian-headless-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre25-debian-headless
+        -t $CI_REGISTRY_IMAGE:jre25-debian-headless-latest
+        -t $DOCKER_REGISTRY:jre25-debian-headless
+        -t $DOCKER_REGISTRY:jre25-debian-headless-latest
+        $CI_REGISTRY_IMAGE:jre$OPENJDK25_IMAGE_TAG-debian-headless
 
 releaseLatest:
   extends: .releaseOnMain
@@ -158,49 +136,35 @@ releaseLatest:
     LATEST_TAG: $OPENJDK25_IMAGE_TAG
   script:
     #### JDK
-    - docker pull $CI_REGISTRY_IMAGE:jdk$LATEST_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $CI_REGISTRY_IMAGE:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $DOCKER_REGISTRY:jdk
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $CI_REGISTRY_IMAGE:jdk-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG $DOCKER_REGISTRY:jdk-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk
-    - docker push $DOCKER_REGISTRY:jdk
-    - docker push $CI_REGISTRY_IMAGE:jdk-latest
-    - docker push $DOCKER_REGISTRY:jdk-latest
-    #### JRE
-    - docker pull $CI_REGISTRY_IMAGE:jre$LATEST_TAG
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:jre
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:jre
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:jre-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:jre-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG $DOCKER_REGISTRY:latest
-    - docker push $CI_REGISTRY_IMAGE:jre
-    - docker push $DOCKER_REGISTRY:jre
-    - docker push $CI_REGISTRY_IMAGE:jre-latest
-    - docker push $DOCKER_REGISTRY:jre-latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - docker push $DOCKER_REGISTRY:latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk
+        -t $CI_REGISTRY_IMAGE:jdk-latest
+        -t $DOCKER_REGISTRY:jdk
+        -t $DOCKER_REGISTRY:jdk-latest
+        $CI_REGISTRY_IMAGE:jdk$LATEST_TAG
+    #### JRE, latest is the JRE
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre
+        -t $CI_REGISTRY_IMAGE:jre-latest
+        -t $CI_REGISTRY_IMAGE:latest
+        -t $DOCKER_REGISTRY:jre
+        -t $DOCKER_REGISTRY:jre-latest
+        -t $DOCKER_REGISTRY:latest
+        $CI_REGISTRY_IMAGE:jre$LATEST_TAG
     #### JDK Debian headless
-    - docker pull $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jdk-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jdk-debian-headless-latest
-    - docker tag $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jdk-debian-headless-latest
-    - docker push $CI_REGISTRY_IMAGE:jdk-debian-headless
-    - docker push $DOCKER_REGISTRY:jdk-debian-headless
-    - docker push $CI_REGISTRY_IMAGE:jdk-debian-headless-latest
-    - docker push $DOCKER_REGISTRY:jdk-debian-headless-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jdk-debian-headless
+        -t $CI_REGISTRY_IMAGE:jdk-debian-headless-latest
+        -t $DOCKER_REGISTRY:jdk-debian-headless
+        -t $DOCKER_REGISTRY:jdk-debian-headless-latest
+        $CI_REGISTRY_IMAGE:jdk$LATEST_TAG-debian-headless
     #### JRE Debian headless
-    - docker pull $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jre-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jre-debian-headless
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $CI_REGISTRY_IMAGE:jre-debian-headless-latest
-    - docker tag $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless $DOCKER_REGISTRY:jre-debian-headless-latest
-    - docker push $CI_REGISTRY_IMAGE:jre-debian-headless
-    - docker push $DOCKER_REGISTRY:jre-debian-headless
-    - docker push $CI_REGISTRY_IMAGE:jre-debian-headless-latest
-    - docker push $DOCKER_REGISTRY:jre-debian-headless-latest
+    - docker buildx imagetools create
+        -t $CI_REGISTRY_IMAGE:jre-debian-headless
+        -t $CI_REGISTRY_IMAGE:jre-debian-headless-latest
+        -t $DOCKER_REGISTRY:jre-debian-headless
+        -t $DOCKER_REGISTRY:jre-debian-headless-latest
+        $CI_REGISTRY_IMAGE:jre$LATEST_TAG-debian-headless
 
 uploadReadme:
   extends: .releaseOnMain

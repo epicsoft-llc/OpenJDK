@@ -29,6 +29,11 @@ These images are for a glibc runtime environment, e.g. for native libraries that
 Headless means AWT is available for font rendering, image and PDF generation, but not for GUI windows.  
 The Debian JDK image is not based on Docker in Docker and contains no Docker CLI.
 
+## Platforms
+
+All images are published as multi-platform manifests for `linux/amd64` and `linux/arm64`.  
+Docker automatically pulls the matching architecture.
+
 ## Versions
 
 `jdk` `jdk25` `jdk25.0.4` `jdk25-latest` `jdk-latest`  
