@@ -1,16 +1,18 @@
 # OpenJDK
 
-This Docker image is managed and kept up to date by [epicsoft LLC](https://epicsoft.one).
+OpenJDK JDK and JRE Docker images for Java 11, 17, 21 and 25 on Alpine, plus a Debian headless variant for Java 25 —
+multi-platform for `linux/amd64` and `linux/arm64`, rebuilt weekly.
 
-Java OpenJDK-JDK and -JRE Docker images based on official images.
+Built on the official [Docker](https://hub.docker.com/_/docker), [Alpine](https://hub.docker.com/_/alpine) and
+[Debian](https://hub.docker.com/_/debian) images and kept up to date by [epicsoft LLC](https://epicsoft.one).
 
-* Base image for OpenJDK-JDK: https://hub.docker.com/_/docker
-* Base image for OpenJDK-JRE: https://hub.docker.com/_/alpine
-* Base image for the Debian variants: https://hub.docker.com/_/debian
-* Dockerfiles: https://gitlab.com/epicsoft-networks/openjdk/tree/main
-* Repository: https://gitlab.com/epicsoft-networks/openjdk/tree/main
-* Container-Registry: https://gitlab.com/epicsoft-networks/openjdk/container_registry
-* Docker Hub: https://hub.docker.com/r/epicsoft/openjdk
+- Images: [Docker Hub](https://hub.docker.com/r/epicsoft/openjdk) and the
+  [GitLab container registry](https://gitlab.com/epicsoft-networks/openjdk/container_registry)
+- License: MIT
+- Source: developed on [GitLab](https://gitlab.com/epicsoft-networks/openjdk), mirrored to
+  [GitHub](https://github.com/epicsoft-llc/openjdk) — issues are welcome on both; code changes only as merge requests on GitLab, the mirror cannot take pull requests
+
+---
 
 ## OpenJDK-JDK
 
@@ -162,6 +164,44 @@ Upstream support for these Java versions ends, the images are no longer updated 
   - Java 17 _(October 2027)_
   - Java 21 _(December 2029)_
   - Java 25 _(September 2031)_
+
+---
+
+## Development
+
+The repository holds Dockerfiles only, everything is built by GitLab CI. Every Java release has its own directory
+`openjdk<major>/<version>/` with the Dockerfiles and a `.gitlab-ci.yml` for its build jobs. Older directories are kept as
+history; the root `.gitlab-ci.yml` includes exactly one directory per major version.
+
+- The build jobs push the exact-version tags (`jdk25.0.4`, `jre25.0.4`, …) as multi-platform images with
+  `docker buildx` — the `arm64` half is built under QEMU emulation — and check `java --version` on every platform.
+- The release jobs run on `main` only and copy those tags to the floating ones (`jdk25`, `jre-latest`, `latest`, …)
+  inside the registry, so the manifest list keeps all platforms.
+- A weekly pipeline schedule rebuilds the current images with `--pull --no-cache`.
+
+### Adding a new Java patch release
+
+1. Copy the previous directory of that major version to `openjdk<major>/<new version>/`
+2. In the Dockerfiles bump the base image (`FROM` and `ALPINE_VERSION` / `DOCKER_VERSION` / `DEBIAN_VERSION`),
+   `JAVA_VERSION` and the pinned Java package. The exact package revision comes from
+   [pkgs.alpinelinux.org](https://pkgs.alpinelinux.org/packages) or [packages.debian.org](https://packages.debian.org)
+   and must exist for both `x86_64` and `aarch64`
+3. In the directory's `.gitlab-ci.yml` bump `OPENJDK<major>_IMAGE_TAG`
+4. In the root `.gitlab-ci.yml` point the `include:` entry at the new directory
+5. Update the version numbers in this README
+6. Add the release to [CHANGELOG.md](https://gitlab.com/epicsoft-networks/openjdk/blob/main/CHANGELOG.md)
+
+### Checking a change locally
+
+A single-platform build from the repository root catches a wrong package pin right away:
+
+```sh
+docker build --pull --no-cache -t openjdk-check -f openjdk25/25.0.4/jre.Dockerfile . \
+  --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+docker run --rm openjdk-check java --version
+```
+
+---
 
 ## License
 
