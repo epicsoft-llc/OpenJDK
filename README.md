@@ -207,4 +207,4 @@ docker run --rm openjdk-check java --version
 
 MIT License see [LICENSE](https://gitlab.com/epicsoft-networks/openjdk/blob/main/LICENSE)
 
-Please note that the MIT license only applies to the files created by epicsoft LLC. Other software may be licensed under other licenses.
+The MIT license applies only to files created by epicsoft LLC. Third-party software in the images, such as OpenJDK, Alpine Linux and Debian, remains under its own licenses.
