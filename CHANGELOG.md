@@ -4,13 +4,16 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project has no version of its own —
 the images are tagged with the Java version they contain — so every entry is headed by the date it reached `main`.
 
-## [Unreleased]
+## 2026-10-13
 
 ### Added
 - Mirror on [GitHub](https://github.com/epicsoft-llc/openjdk); the README names GitLab as the source and GitHub as
   the mirror
 - README section on development: repository layout, CI, adding a Java patch release, checking a change locally
-- `CHANGELOG.md`, `AGENTS.md` and `.gitattributes`, which keeps line endings at LF
+- `CHANGELOG.md`, `AGENTS.md`, `.gitignore` and `.gitattributes`, which keeps line endings at LF
+
+### Changed
+- Docker Hub short description names the Java versions, distributions and platforms
 
 ## 2026-09-06
 

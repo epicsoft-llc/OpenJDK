@@ -19,7 +19,8 @@ built by GitLab CI.
   names of internal repositories or consuming projects, no infrastructure details. Before finishing a change, search
   every published file (`git ls-files` plus new files) for such terms.
 - **Everything in English** — Dockerfiles, comments, README, CHANGELOG, commit messages.
-- **Do not name the AI tool** in files, commit messages or trailers, or merge request texts.
+- **Do not name the AI tool** in files, commit messages or trailers, or merge request texts. The only exception is
+  `.gitignore`, which keeps tool-specific local files out of the repository.
 - **Never commit, push, merge, rebase or tag** — changes stay in the working tree. Proposed commit messages follow
   Conventional Commits (`feat:`, `fix:`, `ci:`, `docs:`, `refactor:`, `revert:`).
 - **`README.md` is part of the release.** `uploadReadme` syncs it to the Docker Hub description, so every link in it

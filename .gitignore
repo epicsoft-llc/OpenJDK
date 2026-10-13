@@ -1,0 +1,14 @@
+### IDE ###
+.idea/
+*.iml
+.vscode/
+
+### Local ###
+.env
+*.log
+.DS_Store
+Thumbs.db
+
+### AI assistant ###
+CLAUDE.md
+.claude/
